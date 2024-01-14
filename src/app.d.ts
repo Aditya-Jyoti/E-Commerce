@@ -1,13 +1,41 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
-declare global {
-	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface PageState {}
-		// interface Platform {}
-	}
+interface User {
+	id: number;
+	username: string;
+	email: string;
+	name: string | null;
+	password: string | null;
+	profilePicture: Buffer | null;
+	listings: Listing[];
+	checkedOutItems: CheckedOutItem[];
+	cart: Cart | null;
 }
 
-export {};
+interface Listing {
+	id: number;
+	name: string;
+	description: string | null;
+	date: Date | null;
+	image: Buffer | null;
+	userId: number;
+	user: User;
+	cart: Cart | null;
+	cartId: number | null;
+	checkedOutItems: CheckedOutItem[];
+}
+
+interface Cart {
+	id: number;
+	userId: number;
+	user: User;
+	items: Listing[];
+}
+
+interface CheckedOutItem {
+	id: number;
+	userId: number;
+	user: User;
+	listingId: number;
+	listing: Listing;
+}
+
+export { User, Listing, Cart, CheckedOutItem };

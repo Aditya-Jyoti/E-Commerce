@@ -6,6 +6,46 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int              @id @default(autoincrement())
+  username        String           @unique
+  email           String           @unique
+  name            String
+  password        String
+  profilePicture  Bytes
+  listings        Listing[]
+  checkedOutItems CheckedOutItem[]
+  cart            Cart?
+}
+
+model Listing {
+  id             Int              @id @default(autoincrement())
+  name           String           @unique
+  description    String
+  date           DateTime
+  image          Bytes
+  userId         Int
+  user           User             @relation(fields: [userId], references: [id])
+  Cart           Cart?            @relation(fields: [cartId], references: [id])
+  cartId         Int?
+  CheckedOutItem CheckedOutItem[]
+}
+
+model Cart {
+  id     Int       @id @default(autoincrement())
+  userId Int       @unique
+  user   User      @relation(fields: [userId], references: [id])
+  items  Listing[]
+}
+
+model CheckedOutItem {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  listingId Int
+  listing   Listing @relation(fields: [listingId], references: [id])
 }
