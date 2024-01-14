@@ -1,9 +1,9 @@
 interface User {
-	id: number;
+	id: number | null;
 	username: string;
 	email: string;
-	name: string | null;
-	password: string | null;
+	name: string;
+	password: string;
 	profilePicture: Buffer | null;
 	listings: Listing[];
 	checkedOutItems: CheckedOutItem[];
